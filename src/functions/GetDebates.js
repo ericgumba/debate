@@ -15,4 +15,4 @@ async function getDebates(params) {
 }
 
 
-export default getDebates   
+export default getDebates 
