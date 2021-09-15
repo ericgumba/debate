@@ -2,6 +2,9 @@ import React from 'react';
 import '../App.css'; 
 import generateRowId from '../functions/GenerateDebateId';  
 import createDebate from '../functions/CreateDebate';  
+import generateIdentity from '../functions/GenerateIdentity';
+ 
+
 class Submit extends React.Component {
 
     constructor(props) {
@@ -22,7 +25,7 @@ class Submit extends React.Component {
       }
     
       handleSubmit(event) {  
-        createDebate({debateTitle: this.state.title , debateSummary: this.state.description} )
+        createDebate({debateTitle: this.state.title , debateSummary: this.state.description, identity: generateIdentity() } )
         event.preventDefault();
       }
     

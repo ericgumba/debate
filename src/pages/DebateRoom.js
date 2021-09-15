@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import getDebate from '../functions/GetDebate';
 import Room from '../components/Room';
+import CreateToken from '../functions/CreateToken';
+import generateIdentity from '../functions/GenerateIdentity';
 
 const { connect,createLocalTracks } = require('twilio-video');
 
@@ -17,8 +19,7 @@ function getTokenFromDebate(debateObj){
 
 
 function DebateRoom(props) {
-   const [debateTitle, setDebateTitle] = React.useState("placeholder"); 
-   const [token, setToken] = React.useState("");  
+   const [debateTitle, setDebateTitle] = React.useState("placeholder");  
    const [room, setRoom] = React.useState(null);
 
    const videoRef = useRef();
@@ -27,14 +28,11 @@ function DebateRoom(props) {
 
       function connectToDebate(token,title){
          console.log(`title: ${title} `)
-         createLocalTracks({
+         console.log(`token: ${token} `)
+         connect(`${token}`, {
             audio: true,
+            name: title,
             video: { width: 640 }
-          }).then(localTracks => {
-            return connect(token, {
-              name: title,
-              tracks: localTracks
-            });
           }).then(room => {
 
             setRoom(room)
@@ -48,14 +46,17 @@ function DebateRoom(props) {
       async function retrieve(){  
          const id = await getSecondPart( props.location.search, "=") 
          const debateObj = await getDebate(id)
-         const token =  getTokenFromDebate(debateObj) 
-         setToken(id) 
+         const debateTitle = debateObj.debateTitle
+         const identity = generateIdentity()
+         const token =  await CreateToken({debateTitle, identity})
+
+         console.log("herer teh token: ", token) 
          connectToDebate(token, debateObj.debateTitle)
       }
   
       retrieve() 
   
-    }, room); 
+    }); 
    
     if (room){
    return ( 
