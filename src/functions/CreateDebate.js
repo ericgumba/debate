@@ -1,5 +1,5 @@
 import generateRowId from '../functions/GenerateDebateId';
-import CreateToken from './CreateToken'
+import createToken from './createToken'
 async function createDebate(params) {
  
     var debateId = generateRowId(32).toString()
@@ -7,7 +7,7 @@ async function createDebate(params) {
     let debateSummary = params.debateSummary
     let dateCreated = new Date()
     let identity = params.identity
-    let debateToken = await CreateToken({identity, debateTitle}) 
+    let debateToken = await createToken({identity, debateTitle}) 
  
 
 

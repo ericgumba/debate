@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import getDebate from '../functions/GetDebate';
 import Room from '../components/Room';
-import CreateToken from '../functions/CreateToken';
+import createToken from '../functions/createToken';
 import generateIdentity from '../functions/GenerateIdentity';
 
 const { connect,createLocalTracks } = require('twilio-video');
@@ -48,7 +48,7 @@ function DebateRoom(props) {
          const debateObj = await getDebate(id)
          const debateTitle = debateObj.debateTitle
          const identity = generateIdentity()
-         const token =  await CreateToken({debateTitle, identity})
+         const token =  await createToken({debateTitle, identity})
 
          console.log("herer teh token: ", token) 
          connectToDebate(token, debateObj.debateTitle)

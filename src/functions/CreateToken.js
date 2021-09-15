@@ -1,5 +1,5 @@
  
-async function CreateToken(params){
+async function createToken(params){
     let identity = params.identity
     let debateTitle = params.debateTitle
     const reqOptions = {
@@ -16,4 +16,4 @@ async function CreateToken(params){
   }
 
 
-export default CreateToken
+export default createToken
