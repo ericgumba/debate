@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import getDebate from '../functions/GetDebate';
 import Room from '../components/Room';
-import createToken from '../functions/createToken';
+import createToken from '../functions/CreateToken';
 import generateIdentity from '../functions/GenerateIdentity';
+import Participant from '../components/Participant';
 
 const { connect,createLocalTracks } = require('twilio-video');
 
@@ -21,7 +22,7 @@ function getTokenFromDebate(debateObj){
 function DebateRoom(props) {
    const [debateTitle, setDebateTitle] = React.useState("placeholder");  
    const [room, setRoom] = React.useState(null);
-
+   let ROOM = null;
    const videoRef = useRef();
    const audioRef = useRef();
    React.useEffect(() => { 
@@ -34,9 +35,8 @@ function DebateRoom(props) {
             name: title,
             video: { width: 640 }
           }).then(room => {
-
-            setRoom(room)
-
+ 
+            ROOM = <Participant room={room} />
 
          }, error => {
             console.error(`Unable to connect to Room: ${error.message}`);
@@ -58,9 +58,9 @@ function DebateRoom(props) {
   
     }); 
    
-    if (room){
+    if (ROOM){
    return ( 
-      <Room room={room} debateTitle={debateTitle} />  
+      {ROOM}
    ) 
     } else{
        return ( <div> loading </div>)

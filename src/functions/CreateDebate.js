@@ -1,5 +1,5 @@
 import generateRowId from '../functions/GenerateDebateId';
-import createToken from './createToken'
+import createToken from './CreateToken'
 async function createDebate(params) {
  
     var debateId = generateRowId(32).toString()
