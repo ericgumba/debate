@@ -22,6 +22,7 @@ function getTokenFromDebate(debateObj){
 function DebateRoom(props) {
    const [debateTitle, setDebateTitle] = React.useState("placeholder");  
    const [room, setRoom] = React.useState(null);
+   const [isLoading, setLoading] = React.useState(false);
    let ROOM = null;
    const videoRef = useRef();
    const audioRef = useRef();
@@ -35,8 +36,8 @@ function DebateRoom(props) {
             name: title,
             video: { width: 640 }
           }).then(room => {
- 
-            ROOM = <Participant room={room} />
+  
+            setRoom(room)
 
          }, error => {
             console.error(`Unable to connect to Room: ${error.message}`);
@@ -47,6 +48,7 @@ function DebateRoom(props) {
          const id = await getSecondPart( props.location.search, "=") 
          const debateObj = await getDebate(id)
          const debateTitle = debateObj.debateTitle
+         setDebateTitle(debateTitle)
          const identity = generateIdentity()
          const token =  await createToken({debateTitle, identity})
 
@@ -56,11 +58,11 @@ function DebateRoom(props) {
   
       retrieve() 
   
-    }); 
+    },[isLoading]); 
    
-    if (ROOM){
+    if (room){
    return ( 
-      {ROOM}
+      <Room room={room} debateTitle={debateTitle}></Room>
    ) 
     } else{
        return ( <div> loading </div>)
